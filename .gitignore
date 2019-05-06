@@ -34,3 +34,7 @@ output.json
 #NDK
 obj/
 .externalNativeBuild
+
+
+# test result files for the Regex function
+Regex/results/*
