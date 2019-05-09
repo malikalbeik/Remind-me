@@ -1,12 +1,25 @@
 import os
-import uuid
-from datetime import datetime
-from werkzeug.security import check_password_hash, generate_password_hash
-from flask import Flask, redirect, flash, render_template, request, session, url_for, jsonify
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
-from config import Config
+
+
+app = Flask(__name__)
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///' + os.path.join(basedir, 'database.db')
+db = SQLAlchemy(app)
+ma = Marshmallow(app)
+migrate = Migrate(app, db)
+
+from models import User, Event, EventSchema
+
+@app.route("/", methods=["GET", "POST"])
+def register():
+    if request.method == "GET":
+        allevents = Event.query.all()
+        response = jsonify(EventSchema(many=True).dump(allevents).data)
+        return response
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -35,6 +48,7 @@ def register():
             return 'lastname is required.'
         # Ensure username exists and password is correct
         if error is None:
+            # myUser = User(username="dgjlskjf", hash="slkjfldfskl", firs )
             db.execute(
                 'INSERT INTO user (username, password, name, surname) VALUES (?, ?, ?, ?)',
             )
@@ -65,7 +79,7 @@ def login():
             return False
     return True
 
-@app.route("/event", method["GET", "POST"])
+@app.route("/event<int:id>", methods=["GET", "POST"])
 def event():
     """event"""
     # User reached route via POST (as by submitting a form via POST)
