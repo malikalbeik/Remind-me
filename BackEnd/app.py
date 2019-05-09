@@ -21,6 +21,11 @@ def register():
         response = jsonify(EventSchema(many=True).dump(allevents).data)
         return response
 
+@app.route("/event/<int:eventId>", methods=["GET", "POST"])
+def event(eventId):
+    if request.method == "GET":
+        return jsonify(EventSchema(many=False).dump(Event.query.get(eventId)).data)
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user """
@@ -78,24 +83,3 @@ def login():
         if not check_password_hash(user.hash, password):
             return False
     return True
-
-@app.route("/event<int:id>", methods=["GET", "POST"])
-def event():
-    """event"""
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-        # get name, location, date, description and gepoints from form.
-        name = request.args.get("name")
-        location = request.args.get("location")
-        date = request.args.get("date")
-        description = request.args.get("description")
-        gepoints = request.args.get("gepoints")
-
-    return True
-
-@app.route("/events", method["GET", "POST"])
-def events():
-    """events"""
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method =="POST":
-        # get event from form.

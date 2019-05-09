@@ -21,7 +21,7 @@ class Event(db.Model):
     gepoints = db.Column(db.String(32), unique=False, nullable=True)
 
     def __repr__(self):
-        return '<Item {}>'.format(self.title)
+        return '<Item {}>'.format(self.name)
 
 class EventSchema(ma.ModelSchema):
     """for flask_marshmallow to be able to jsonify Items"""
