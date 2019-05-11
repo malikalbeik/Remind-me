@@ -38,3 +38,7 @@ obj/
 
 # test result files for the Regex function
 Regex/results/*
+
+# ignore flask migrate files
+BackEnd/__pycache__/
+BackEnd/migrations/
