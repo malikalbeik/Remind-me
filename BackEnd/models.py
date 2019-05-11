@@ -18,6 +18,7 @@ class Event(db.Model):
     name = db.Column(db.String(32), unique=False, nullable=False)
     description = db.Column(db.String(256), unique=False, nullable=True)
     location = db.Column(db.String(64), unique=False, nullable=True)
+    time = db.Column(db.String(64), unique=False, nullable=True)
     gepoints = db.Column(db.String(32), unique=False, nullable=True)
 
     def __repr__(self):
